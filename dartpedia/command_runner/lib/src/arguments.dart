@@ -78,7 +78,7 @@ abstract class Command extends Argument {
       UnmodifiableSetView(_options.toSet());
 
   // A flag is an [Option] that's treated as a boolean.
-  void addFlag(String name, {String? help, String? abbr, Straing? valueHelp}) {
+  void addFlag(String name, {String? help, String? abbr, String? valueHelp}) {
     _options.add(
       Option(
         name,

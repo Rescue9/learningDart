@@ -2,10 +2,6 @@ import 'dart:async';
 
 import 'arguments.dart';
 
-import 'dart:async';
-
-import 'arguments.dart';
-
 // Prints program and argument usage.
 //
 // When given a command as an argument, it prints the usage of
