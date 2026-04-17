@@ -1,3 +1,3 @@
-# birdle
+# Learning FLutter and Dart
 
-A new Flutter project.
+https://docs.flutter.dev/learn/pathway/
