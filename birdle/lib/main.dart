@@ -17,8 +17,7 @@ class MainApp extends StatelessWidget {
         ),
 
         backgroundColor: Colors.blueGrey,
-        body: Center(
-          child: GamePage()),
+        body: Center(child: GamePage()),
       ),
     );
   }
@@ -32,7 +31,9 @@ class Tile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      curve: Curves.decelerate,
+      duration: Duration(milliseconds: 1000),
       width: 60,
       height: 60,
       decoration: BoxDecoration(
@@ -54,10 +55,15 @@ class Tile extends StatelessWidget {
   }
 }
 
-class GamePage extends StatelessWidget {
+class GamePage extends StatefulWidget {
   GamePage({super.key});
+
+  @override
+  State<GamePage> createState() => _GamePageState();
+}
+
+class _GamePageState extends State<GamePage> {
   // This object is par  of the game.dart file
-  // It manages wordle logic, and is outside the scope of this tutorial
   final Game _game = Game();
 
   @override
@@ -65,16 +71,26 @@ class GamePage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        spacing: 5.0,
         children: [
           for (var guess in _game.guesses)
-            Row(spacing: 5.0,
-                children: [
-                  for (var letter in guess) Tile(letter.char, letter.type)
-                ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                for (var letter in guess)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 2.5,
+                      vertical: 2.5,
+                    ),
+                    child: Tile(letter.char, letter.type),
+                  ),
+              ],
             ),
-          GuessInput(onSubmitGuess: (String guess) {
-            print(guess);
+          GuessInput(
+            onSubmitGuess: (String guess) {
+              setState(() {
+                _game.guess(guess);
+              });
             },
           ),
         ],
@@ -109,8 +125,8 @@ class GuessInput extends StatelessWidget {
               maxLength: 5,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(35))
-                )
+                  borderRadius: BorderRadius.all(Radius.circular(35)),
+                ),
               ),
               controller: _textEditingController,
               autofocus: true,
@@ -122,8 +138,8 @@ class GuessInput extends StatelessWidget {
           ),
         ),
         IconButton(
-          padding:EdgeInsets.zero, 
-          icon: Icon(Icons.arrow_circle_up), 
+          padding: EdgeInsets.zero,
+          icon: Icon(Icons.arrow_circle_up),
           onPressed: _onSubmit,
         ),
       ],
